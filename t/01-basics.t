@@ -4,7 +4,7 @@ use warnings;
 no  warnings 'uninitialized';
 
 use Serializer qw(thaw freeze);
-use Test::More tests => 1;
+use Test::More tests => 17;
 
 sub tst ($$)  {
     my $frozen = freeze ($_[0]);
