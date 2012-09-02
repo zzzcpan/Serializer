@@ -4,7 +4,7 @@ use warnings;
 no  warnings 'uninitialized';
 
 use Serializer qw(thaw freeze);
-use Test::More tests => 17;
+use Test::More tests => 18;
 
 sub tst ($$)  {
     my $frozen = freeze ($_[0]);
@@ -33,6 +33,7 @@ tst (\\[], "ref to ref to empty arrayref");
 tst (["foo"], "arrayref with a single scalar");
 tst ([""], "arrayref with a single empty scalar");
 tst (["foo", "bar", "baz"], "arrayref with three scalars");
+tst (["foo", "bar", undef, "baz"], "arrayref with three scalars and one undef");
 
 tst ({"foo" => "bar"}, "hashref with a single pair");
 tst ({"" => ""}, "hashref with a single empty pair");
