@@ -34,6 +34,8 @@ require Exporter;
 our @ISA = qw(Exporter);
 our @EXPORT_OK = qw(freeze thaw);
 
+use Carp;
+
 sub freeze ($);
 sub thaw ($);
 
@@ -81,7 +83,7 @@ sub freeze ($) {
     } elsif (ref $_[0] eq 'REF') {
         "\\". freeze (${$_[0]});
     } else {
-        die "Cannot freeze reftype ". ref ($_[0]) ."\n";
+        croak "Cannot freeze reftype ". ref ($_[0]);
     }
 }
 
@@ -92,10 +94,9 @@ sub thaw_scalar {
         pos ($_[0]) += $len;
         substr ($_[0], pos ($_[0]) - $len, $len); 
     } else {
-        die "Incorrectly encoded scalar ".
-            "at pos ". pos ($_[0]) .": '". 
-              substr ($_[0], pos($_[0]), 10) ."'".
-            "\n";
+        croak "Incorrectly encoded scalar ".
+              "at pos ". pos ($_[0]) .": '". 
+                substr ($_[0], pos($_[0]), 10) ."'";
     }
 }
 
@@ -110,16 +111,14 @@ sub thaw_arrayref {
         if ($_[0] =~ /\G \]/gcsx) {
             $arrayref;
         } else {
-            die "Incorrectly encoded arrayref's ending ".
-                "at pos ". pos ($_[0]) .": '". 
-                  substr ($_[0], pos($_[0]), 10) ."'".
-                "\n";
+            croak "Incorrectly encoded arrayref's ending ".
+                  "at pos ". pos ($_[0]) .": '". 
+                    substr ($_[0], pos($_[0]), 10) ."'";
         }
     } else {
-        die "Incorrectly encoded arrayref ".
-            "at pos ". pos ($_[0]) .": '". 
-              substr ($_[0], pos($_[0]), 10) ."'".
-            "\n";
+        croak "Incorrectly encoded arrayref ".
+              "at pos ". pos ($_[0]) .": '". 
+                substr ($_[0], pos($_[0]), 10) ."'";
     }
 }
 
@@ -135,16 +134,14 @@ sub thaw_hashref {
         if ($_[0] =~ /\G \}/gcsx) {
             $hashref;
         } else {
-            die "Incorrectly encoded hashref's ending ".
-                "at pos ". pos ($_[0]) .": '". 
-                  substr ($_[0], pos($_[0]), 10) ."'".
-                "\n";
+            croak "Incorrectly encoded hashref's ending ".
+                  "at pos ". pos ($_[0]) .": '". 
+                    substr ($_[0], pos($_[0]), 10) ."'";
         }
     } else {
-        die "Incorrectly encoded hashref ".
-            "at pos ". pos ($_[0]) .": '". 
-              substr ($_[0], pos($_[0]), 10) ."'".
-            "\n";
+        croak "Incorrectly encoded hashref ".
+              "at pos ". pos ($_[0]) .": '". 
+                substr ($_[0], pos($_[0]), 10) ."'";
     }
 }
 
@@ -167,10 +164,9 @@ sub thaw ($) {
             \$value;
         }
     } else {
-        die "Unknown element type ".
-            "at pos ". (pos ($_[0]) || 0) .": '". 
-              substr ($_[0], pos($_[0]), 10) ."'".
-            "\n";
+        croak "Unknown element type ".
+              "at pos ". (pos ($_[0]) || 0) .": '". 
+                substr ($_[0], pos($_[0]), 10) ."'";
     }
 }
 
