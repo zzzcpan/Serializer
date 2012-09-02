@@ -1,0 +1,28 @@
+NAME
+    Serializer - lightweight perl serializer
+
+SYNOPSIS
+        use Serializer qw(thaw freeze);
+    
+        my $frozen = freeze ([1, 2, 3]);
+        my $unfrozen = thaw ($frozen);
+
+DESCRIPTION
+    Simple lightweight recursive pure-perl data serializer. Takes into
+    account UTF-8 scalars. Works just like thaw() and freeze() in Storable.
+
+EXPORT
+    Doesn't export anything by default.
+
+SEE ALSO
+    Storable, JSON::XS, Data::MessagePack
+
+AUTHOR
+    Alexandr Gomoliako <zzz@zzz.org.ua>
+
+LICENSE
+    Copyright 2012 Alexandr Gomoliako. All rights reserved.
+
+    This module is free software. It may be used, redistributed and/or
+    modified under the same terms as Perl itself.
+
